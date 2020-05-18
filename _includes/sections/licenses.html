@@ -1,0 +1,16 @@
+<h1><span data-i18n="skills.my_skills">Licenses and Certifications</span></h1>
+
+<div class="archive">
+  <div class="timeline" id="timeline">
+    {% for license in site.data.index.licenses %}
+          <div class="archive-title">
+              <div class="archive-year">
+                  <strong>{{ license.date }}</strong> {{ license.name }} - <strong>{{ license.organization }}</strong>
+                  {% if license.link %}
+                    <a href="{{ license.link }}"><i class="fa fa-fw fa-external-link"></i></a>
+                  {% endif %}
+                </div>
+            </div>
+    {% endfor %}
+  </div>
+</div>

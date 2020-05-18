@@ -1,0 +1,25 @@
+# honors section data
+# if you don't have language feature(language.yml is empty), ignore "i18n" items
+- name: Ideafuse 2019
+  date: Jun 2019
+  job: Finalist Competitive Programming
+
+- name: ITFest USU 2018
+  date: Feb 2018
+  job: Finalist Competitive Programming
+
+- name: SNaTIKRa 2017
+  date: Aug 2017
+  job: Finalist
+
+- name: Institut Teknologi Del
+  date: Aug 2017
+  job: Student Leadership
+
+- name: ITobaFest 2017
+  date: May 2017
+  job: Finalist Competitive Programming
+
+- name: ITFest USU 2017
+  date: Feb 2017
+  job: Finalist Competitive Programming

@@ -1,0 +1,15 @@
+# careers section data
+# if you don't have language feature(language.yml is empty), ignore "i18n" items
+- name: Tokopedia
+  link: http://www.tokopedia.com/
+  date: Jun 2019 - Sep 2019
+  job: Software Engineer Intern
+
+- name: Institut Teknologi Del
+  link: http://www.del.ac.id.com/
+  date: Sep 2018 - Mar 2019
+  job: Teaching Assistant - Basic Programming
+
+- name: Toba Media Kreatif
+  date: June 2018 - August 2018
+  job: Software Engineer Intern

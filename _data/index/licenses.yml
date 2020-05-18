@@ -1,0 +1,18 @@
+# honors section data
+# if you don't have language feature(language.yml is empty), ignore "i18n" items
+- name: ICPC ID
+  date: Jan 2017 - <i class="fa fa-clock-o" aria-hidden="true" title="Until Now"></i>
+  link: https://icpc.baylor.edu/ICPCID/4XLOI8W3EBLK
+  organization: ICPC
+
+- name: Membangun Progressive Web Apps
+  date: Apr 2020 - Apr 2023
+  organization: Dicoding Academy
+
+- name: Belajar Membuat Aplikasi Android untuk Pemula
+  date: Dec 2019 - Dec 2022
+  organization: Dicoding Academy
+  
+- name: Belajar Dasar Pemrograman Web
+  date: Aug 2019 - Aug 2022
+  organization: Dicoding Academy
