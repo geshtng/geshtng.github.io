@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>geshtng</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">geshtng</h1>
+            <nav>
+                <button id="menu-toggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <ul class="menu" id="menu">
+                    <li><a href="#about" class="active">About Me</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#resume">Resume</a></li>
+                </ul>
+                <button id="theme-toggle" aria-label="Toggle dark mode">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="assets/PP.jpg" alt="Your Name">
+                    </div>
+                    <div class="about-text">
+                        <h2>Hello, I'm <span class="highlight">Gerald Sihotang</span></h2>
+                        <h3>Software Engineer</h3>
+                        <p>
+                            Experienced backend engineer skilled in building scalable applications, streamlining
+                            deployment processes, and ensuring quality assurance. Proficient in mastering new
+                            technologies and delivering reliable solutions across development, staging, and production
+                            environments.
+                        </p>
+                        <div class="social-links">
+                            <a href="https://github.com/geshtng" target="_blank" aria-label="GitHub"><i
+                                    class="fab fa-github"></i></a>
+                            <a href="https://linkedin.com/in/gerald-sihotang" target="_blank" aria-label="LinkedIn"><i
+                                    class="fab fa-linkedin"></i></a>
+                            <a href="mailto:geraldsihotang@hotmail.com" aria-label="Email"><i
+                                    class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects"></section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title">Projects</h2>
+                <div class="projects-grid" id="projects-grid"></div>
+            </div>
+        </section>
+
+        <!-- Resume Section -->
+        <section id="resume" class="section">
+            <div class="container">
+                <h2 class="section-title">Resume</h2>
+                <div class="resume-header">
+                    <p>Here's a summary of my professional experience and education. For more details, you can download
+                        my complete CV.</p>
+                    <a href="assets/CV - Gerald Bendryandre Sihotang.pdf" download class="btn btn-primary">
+                        <i class="fas fa-download"></i> Download CV
+                    </a>
+                </div>
+
+                <div class="timeline">
+                    <h3 class="timeline-header">Work Experience</h3>
+                    <div id="experience-list"></div>
+
+                    <h3 class="timeline-header">Education</h3>
+                    <div id="education-list"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="current-year"></span> geshtng. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/loader.js"></script>
+</body>
+
+</html>

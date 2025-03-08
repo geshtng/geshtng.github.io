@@ -1,0 +1,122 @@
+[
+    {
+        "date": "Jan 2023 - Present",
+        "title": "Engineering Infrastructure - Network Operation Center Engineer",
+        "company": "Sea Labs Indonesia",
+        "company_logo": "https://companieslogo.com/img/orig/SE_BIG-ff79f272.png?t=1720244493",
+        "location": "Jakarta, Indonesia",
+        "description": "",
+        "description_details": [
+            "Provide essential monitoring and troubleshooting for Shopee’s services using Grafana and custom scripts, escalating critical issues.",
+            "Conducted root cause analysis on critical system issues, leading to a 15% reduction in recurring incidents through targeted improvement plans.",
+            "Developed automation scripts in Python, Go, and ReactJS, reducing manual interventions by 30% and improving NOC response times by 30%.",
+            "Coordinated server troubleshooting for NIC, memory, and disk issues by liaising between data center engineers and business units, ensuring timely issue resolution and system reliability."
+        ],
+        "tools": [
+            "Go",
+            "Python",
+            "ReactJS",
+            "MySQL",
+            "Grafana"
+        ]
+    },
+    {
+        "date": "Jul 2022 - Jan 2023",
+        "title": "Junior Fullstack Engineer",
+        "company": "Shopee",
+        "company_logo": "https://freepnglogo.com/images/all_img/1727674497_shopee-logo-png.png",
+        "location": "Jakarta, Indonesia",
+        "description": "",
+        "description_details": [
+            "Completed a six-month structured training program focused on software engineering fundamentals, mastering best practices with Golang and ReactJS.",
+            "Developed a full-stack web application using ReactJS and TypeScript for frontend and Golang for backend."
+        ],
+        "tools": [
+            "Go",
+            "Javscript",
+            "Typescript",
+            "ReactJS",
+            "PostgreSQL",
+            "MySQL",
+            "Redis"
+        ]
+    },
+    {
+        "date": "Jun 2021 - Sep 2021",
+        "title": "Junior Software Engineer",
+        "company": "Pinhome",
+        "company_logo": "https://cdn.brandfetch.io/idNE6gdwr3/w/640/h/640/theme/dark/icon.jpeg?c=1dxbfHSJFAPEGdCLU4o5B",
+        "location": "Jakarta, Indonesia",
+        "description": "",
+        "description_details": [
+            "Engineered and optimized Pinhome’s backend by refactoring APIs and optimizing database queries, improving service reliability by 20%.",
+            "Contributed to the migration of Pinhome’s service from semi-monolith to microservices by developing key backend services, improving scalability and performance.",
+            "Designed and implemented a database migration script, streamlining the transition to microservices and improving system performance.",
+            "Created comprehensive unit tests, achieving ~98% code coverage using Go testing frameworks, significantly reducing production bugs and improving QA.",
+            "Refactored Pinhome's service to clean code."
+        ],
+        "tools": [
+            "Go",
+            "PostgreSQL",
+            "Grafana",
+            "Retool"
+        ]
+    },
+    {
+        "date": "Oct 2020 - May 2021",
+        "title": "Software Engineer",
+        "company": "Transfree",
+        "company_logo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2YWpPMcNNr6Ui17X3Jar_fho23KvDVeFDuw&s",
+        "location": "Jakarta, Indonesia - Remote",
+        "description": "",
+        "description_details": [
+            "Designed, built, and improved Transfree’s admin service, reducing response time by 40% and improving user experience.",
+            "Integrated third-party services (WhatsApp OTP, Email OTP, Digital Wallet), enhancing the system's authentication process."
+        ],
+        "tools": [
+            "Javascript",
+            "ExpressJS",
+            "MongoDB"
+        ]
+    },
+    {
+        "date": "Jun 2020 - Jul 2020",
+        "title": "Fullstack Engineer - Intern",
+        "company": "PT. PLN (Persero)",
+        "company_logo": "https://upload.wikimedia.org/wikipedia/commons/9/97/Logo_PLN.png",
+        "location": "Kabanjahe, Indonesia",
+        "description": "",
+        "description_details": [
+            "Developed a backend service using Go and PostgreSQL to monitor PLN's payment systems in Karo, North Sumatera.",
+            "Developed an Android mobile app in Java for employee monitoring, enhancing management's ability to track attendance and performance metrics."
+        ],
+        "tools": [
+            "Go",
+            "PostgreSQL",
+            "Java",
+            "Android",
+            "Firebase"
+        ]
+    },
+    {
+        "date": "Jun 2020 - Jul 2020",
+        "title": "Software Engineer - Intern",
+        "company": "Tokopedia",
+        "company_logo": "https://images.seeklogo.com/logo-png/37/1/tokopedia-logo-png_seeklogo-373974.png",
+        "location": "Kabanjahe, Indonesia",
+        "description": "",
+        "description_details": [
+            "Developed, optimized, and bug-fixed a highly-concurrent distributed system for TokoPoints services, improving system capacity by 25%.",
+            "Collaborated with software engineers, business development, and product managers to design and deliver TokoPoints features, resulting in a 15% increase in user engagement."
+        ],
+        "tools": [
+            "Go",
+            "Javascript",
+            "PostgreSQL",
+            "Redis",
+            "GraphQL",
+            "Grafana",
+            "NSQ"
+        ]
+    }
+]

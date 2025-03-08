@@ -1,0 +1,22 @@
+[
+    {
+        "date": "2016 - 2020",
+        "institution": "Institut Teknologi Del",
+        "institution_logo": "https://maukuliah.ap-south-1.linodeobjects.com/logo/012005.jpg",
+        "degree": "Bachelor of Applied Science in Software Engineering",
+        "major": "Software Engineering Technology",
+        "location": "Laguboti, North Sumatera, Indonesia",
+        "description": "A bachelor program that aims to provide a learning process that fosters high reasoning skills, creativity, and abilities that can be communicated and applied in various fields of life.",
+        "description_details": []
+    },
+    {
+        "date": "2013 - 2016",
+        "institution": "SMA Negeri 1 Parlilitan",
+        "institution_logo": "https://disdikbud.banyuasinkab.go.id/wp-content/uploads/sites/269/2022/11/Logo-Tut-Wuri-Handayani-PNG-Warna.png",
+        "degree": "",
+        "major": "Science Program",
+        "location": "Parlilitan, North Sumatera, Indonesia",
+        "description": "",
+        "description_details": []
+    }
+]

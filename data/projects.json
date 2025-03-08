@@ -1,0 +1,14 @@
+[
+    {
+        "title": "Go Base Backend",
+        "repository": "https://github.com/geshtng/go-base-backend",
+        "demo": "",
+        "description": "Go backend clean architecture boilerplate.",
+        "tools": [
+            "Go",
+            "SQL",
+            "gRPC",
+            "API"
+        ]
+    }
+]
