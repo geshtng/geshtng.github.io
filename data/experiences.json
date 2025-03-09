@@ -84,7 +84,7 @@
         "title": "Fullstack Engineer - Intern",
         "company": "PT. PLN (Persero)",
         "company_logo": "https://upload.wikimedia.org/wikipedia/commons/9/97/Logo_PLN.png",
-        "location": "Kabanjahe, Indonesia",
+        "location": "Kabanjahe, North Sumatera, Indonesia",
         "description": "",
         "description_details": [
             "Developed a backend service using Go and PostgreSQL to monitor PLN's payment systems in Karo, North Sumatera.",
@@ -103,7 +103,7 @@
         "title": "Software Engineer - Intern",
         "company": "Tokopedia",
         "company_logo": "https://images.seeklogo.com/logo-png/37/1/tokopedia-logo-png_seeklogo-373974.png",
-        "location": "Kabanjahe, Indonesia",
+        "location": "Jakarta, Indonesia",
         "description": "",
         "description_details": [
             "Developed, optimized, and bug-fixed a highly-concurrent distributed system for TokoPoints services, improving system capacity by 25%.",
@@ -115,7 +115,6 @@
             "PostgreSQL",
             "Redis",
             "GraphQL",
-            "Grafana",
             "NSQ"
         ]
     }
