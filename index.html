@@ -5,102 +5,112 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>geshtng</title>
+    <meta name="description" content="Gerald Sihotang, software engineer in Jakarta. Ride the line through my work.">
+    <link rel="canonical" href="https://geshtng.github.io/">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <meta name="theme-color" content="#0b1030">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://geshtng.github.io/">
+    <meta property="og:title" content="Gerald Sihotang · Software Engineer">
+    <meta property="og:description" content="Ride the line through my work: a lofi train journey from Jakarta, built from my GitHub activity.">
+    <meta property="og:image" content="https://geshtng.github.io/assets/og.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="A pixel-art bullet train at a station under Mount Fuji, with a station sign reading Gerald Sihotang">
+    <meta name="twitter:card" content="summary_large_image">
+    <script>
+        // Pick the look before first paint from the hour in Jakarta, the same hours the lofi city uses.
+        (() => {
+            const hour = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Jakarta", hour: "numeric", hourCycle: "h23" }).format(new Date()))
+            document.documentElement.dataset.time =
+                hour >= 4 && hour < 6 ? "dawn" : hour >= 6 && hour < 16 ? "day" : hour >= 16 && hour < 19 ? "dusk" : "night"
+            // The ride needs room and motion; small screens and reduced motion read top to bottom.
+            if (matchMedia("(min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)").matches)
+                document.documentElement.classList.add("ride-on")
+        })()
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=VT323&display=swap">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module" src="js/main.js"></script>
+    <!-- Visitor counts with GoatCounter: no cookies, no personal data. -->
+    <script data-goatcounter="https://geshtng.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 </head>
 
 <body>
-    <header>
-        <div class="container">
-            <h1 class="logo">geshtng</h1>
-            <nav>
-                <button id="menu-toggle" aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
-                <ul class="menu" id="menu">
-                    <li><a href="#about" class="active">About Me</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#resume">Resume</a></li>
-                </ul>
-                <button id="theme-toggle" aria-label="Toggle dark mode">
-                    <i class="fas fa-moon"></i>
-                    <i class="fas fa-sun"></i>
-                </button>
-            </nav>
-        </div>
+    <a class="skip-link" href="#stop-hi">Skip the ride, go to contact</a>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.2 19.5c.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.5-1.2-1.1-1.5-1.1-1.5-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.4-1.1.6-1.3-2.2-.3-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .8-.3 2.8 1a9.7 9.7 0 0 1 5 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 3.9-2.4 4.7-4.6 5 .4.3.7.9.7 1.9V21c0 .3.2.6.7.5A10 10 0 0 0 12 2z"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.4 2H3.6C2.7 2 2 2.7 2 3.6v16.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6V3.6c0-.9-.7-1.6-1.6-1.6zM8 19H5V9.5h3V19zM6.5 8.2a1.7 1.7 0 1 1 0-3.5 1.7 1.7 0 0 1 0 3.5zM19 19h-3v-4.6c0-1.1 0-2.5-1.5-2.5s-1.8 1.2-1.8 2.4V19h-3V9.5h2.9v1.3c.4-.8 1.4-1.5 2.9-1.5 3 0 3.5 2 3.5 4.6V19z"/></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" d="M3 5h18v14H3zM3 6l9 7 9-7"/></symbol>
+    </svg>
+
+    <header class="topbar">
+        <a href="#stop-about" class="logo">geshtng</a>
+        <nav class="route" aria-label="Stations">
+            <ol class="route-line" id="route"></ol>
+            <p class="route-now"><span class="route-now-label">Now at</span> <b id="route-now">About</b></p>
+        </nav>
+        <button class="sound" id="sound" type="button" aria-pressed="false" title="Ride sounds" hidden>♪ off</button>
+        <span class="clock" title="Local time in Jakarta"><span id="clock-look"></span> <span id="clock-time">--:--</span></span>
     </header>
 
-    <main>
-        <!-- About Section -->
-        <section id="about" class="section">
-            <div class="container">
-                <div class="about-content">
-                    <div class="about-image">
-                        <img src="assets/PP.jpg" alt="Your Name">
-                    </div>
-                    <div class="about-text">
-                        <h2>Hello, I'm <span class="highlight">Gerald Sihotang</span></h2>
-                        <h3>Software Engineer</h3>
-                        <p>
-                            Experienced backend engineer skilled in building scalable applications, streamlining
-                            deployment processes, and ensuring quality assurance. Proficient in mastering new
-                            technologies and delivering reliable solutions across development, staging, and production
-                            environments.
-                        </p>
-                        <div class="social-links">
-                            <a href="https://github.com/geshtng" target="_blank" aria-label="GitHub"><i
-                                    class="fab fa-github"></i></a>
-                            <a href="https://linkedin.com/in/gerald-sihotang" target="_blank" aria-label="LinkedIn"><i
-                                    class="fab fa-linkedin"></i></a>
-                            <a href="mailto:geraldsihotang@hotmail.com" aria-label="Email"><i
-                                    class="fas fa-envelope"></i></a>
+    <main class="ride" id="ride">
+        <div class="ride-stage">
+            <canvas id="scene" aria-hidden="true"></canvas>
+            <img class="ride-hero" src="https://raw.githubusercontent.com/geshtng/geshtng/lofi/lofi.gif"
+                alt="A lofi Japanese city under Mount Fuji, redrawn every two hours from my GitHub activity">
+<div class="stops" id="stops">
+                <!-- Shown without JavaScript (and to search engines); main.js replaces it with the
+                     full ride from data/*.json. Keep it roughly in sync when roles change. -->
+                <article class="stop" id="stop-about" style="--line:#0a9a4a" aria-label="About">
+                    <header class="sign">
+                        <span class="sign-number">01</span>
+                        <p class="sign-kana" lang="ja">ジェラルド・シホタン</p>
+                        <h1 class="sign-name">Gerald Sihotang</h1>
+                        <p class="sign-sub">Software Engineer · Jakarta</p>
+                        <div class="sign-stripe"></div>
+                    </header>
+                    <div class="stop-body">
+                        <div class="intro">
+                            <img class="portrait" src="assets/PP.jpg" alt="Gerald Sihotang" width="112" height="120">
+                            <p class="lead">I build the behind-the-scenes systems that keep apps fast and dependable, even at
+                                their busiest. I like making slow things quick: at Mekari, jobs that used to take hours now
+                                finish in under a minute.</p>
+                        </div>
+                        <h2>Experience</h2>
+                        <ul class="points">
+                            <li><b>Mekari</b> · Software Engineer <span class="meta">(Jul 2025 - Present)</span></li>
+                            <li><b>Sea Labs Indonesia</b> · Engineering Infrastructure - Network Operation Center Engineer <span class="meta">(Jan 2023 - Jul 2025)</span></li>
+                            <li><b>Shopee</b> · Junior Fullstack Engineer <span class="meta">(Jul 2022 - Jan 2023)</span></li>
+                            <li><b>Pinhome</b> · Junior Software Engineer <span class="meta">(Jun 2021 - Sep 2021)</span></li>
+                            <li><b>Transfree</b> · Software Engineer <span class="meta">(Oct 2020 - May 2021)</span></li>
+                            <li><b>PT. PLN (Persero)</b> · Fullstack Engineer - Intern <span class="meta">(Jun 2020 - Jul 2020)</span></li>
+                            <li><b>Tokopedia</b> · Software Engineer - Intern <span class="meta">(Jun 2020 - Jul 2020)</span></li>
+                        </ul>
+                        <h2>Education</h2>
+                        <ul class="points">
+                            <li><b>Institut Teknologi Del</b> · Bachelor of Applied Science in Software Engineering <span class="meta">(2016 - 2020)</span></li>
+                        </ul>
+                        <div class="contact" id="stop-hi">
+                            <a class="btn" href="https://github.com/geshtng">GitHub</a>
+                            <a class="btn" href="https://linkedin.com/in/gerald-sihotang">LinkedIn</a>
+                            <a class="btn" href="mailto:geraldsihotang@hotmail.com">Email</a>
                         </div>
                     </div>
-                </div>
+                </article>
             </div>
-        </section>
-
-        <section id="projects"></section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="section">
-            <div class="container">
-                <h2 class="section-title">Projects</h2>
-                <div class="projects-grid" id="projects-grid"></div>
-            </div>
-        </section>
-
-        <!-- Resume Section -->
-        <section id="resume" class="section">
-            <div class="container">
-                <h2 class="section-title">Resume</h2>
-                <div class="resume-header">
-                    <p>Here's a summary of my professional experience and education. For more details, you can download
-                        my complete CV.</p>
-                    <a href="assets/CV - Gerald Bendryandre Sihotang.pdf" download class="btn btn-primary">
-                        <i class="fas fa-download"></i> Download CV
-                    </a>
-                </div>
-
-                <div class="timeline">
-                    <h3 class="timeline-header">Work Experience</h3>
-                    <div id="experience-list"></div>
-
-                    <h3 class="timeline-header">Education</h3>
-                    <div id="education-list"></div>
-                </div>
-            </div>
-        </section>
+            <p class="ride-hint" id="ride-hint">Scroll to ride the line →</p>
+        </div>
     </main>
 
-    <footer>
-        <div class="container">
-            <p>&copy; <span id="current-year"></span> geshtng. All rights reserved.</p>
-        </div>
+    <footer class="footer">
+        <p><span lang="ja">終点</span> · End of the line · &copy; <span id="current-year">2026</span> geshtng</p>
+        <p>Scenery after <a href="https://github.com/geshtng/git-lofi" target="_blank" rel="noopener">git-lofi</a></p>
     </footer>
-
-    <script src="js/main.js"></script>
-    <script src="js/loader.js"></script>
 </body>
 
 </html>

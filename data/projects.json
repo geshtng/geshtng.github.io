@@ -10,5 +10,17 @@
             "gRPC",
             "API"
         ]
+    },
+    {
+        "title": "git-lofi",
+        "repository": "https://github.com/geshtng/git-lofi",
+        "demo": "",
+        "description": "A lofi Japanese city drawn from GitHub activity, as a looping GIF for a profile README. It's the city at the top of this page.",
+        "tools": [
+            "TypeScript",
+            "Node.js",
+            "GitHub Actions",
+            "Pixel art"
+        ]
     }
 ]
