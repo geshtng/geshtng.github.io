@@ -17,6 +17,7 @@ const LINKS = {
 const $ = (id) => document.getElementById(id)
 const esc = (value) => String(value ?? "").replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`)
 const rideOn = document.documentElement.classList.contains("ride-on")
+const rideMini = document.documentElement.classList.contains("ride-mini")
 
 const timeOfDay = (hour) =>
     hour >= 4 && hour < 6 ? "dawn" : hour >= 6 && hour < 16 ? "day" : hour >= 16 && hour < 19 ? "dusk" : "night"
@@ -211,10 +212,42 @@ async function main() {
             event.preventDefault()
             ride.goTo(Math.max(stops.findIndex((s) => `#stop-${s.id}` === link.hash), 0))
         })
+    } else if (rideMini) {
+        // Phones: swipe through the stations as cards; the train rides to the one in view.
+        ride = startRide({ ride: $("ride"), canvas: $("scene"), stops: [...document.querySelectorAll(".stop")], look: document.documentElement.dataset.time, follow: true })
+        const track = $("stops")
+        const cards = [...track.children]
+        $("ride-hint").textContent = "Swipe to ride the line →"
+        let shown = -1
+        const onSwipe = () => {
+            // Where the swipe is, in stations (fractional while dragging): the scenery slides
+            // with the finger, each layer at its own speed, and settles when the card snaps.
+            const stride = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : 1
+            const position = Math.min(Math.max(track.scrollLeft / stride, 0), cards.length - 1)
+            ride.goTo(position)
+            const index = Math.round(position)
+            if (index === shown) return
+            shown = index
+            markStop(stops, index)
+        }
+        track.addEventListener("scroll", onSwipe, { passive: true })
+        document.addEventListener("click", (event) => {
+            const link = event.target.closest('a[href^="#stop-"]')
+            if (!link) return
+            event.preventDefault()
+            document.querySelector(link.hash)?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" })
+        })
+        onSwipe()
     } else {
+        // Reading layout (reduced motion): stops in a column, the city GIF on top.
         const observer = new IntersectionObserver(
-            (entries) => entries.forEach((e) => e.isIntersecting && markStop(stops, [...$("stops").children].indexOf(e.target))),
-            { rootMargin: "-45% 0px -50% 0px" },
+            (entries) =>
+                entries.forEach((e) => {
+                    if (!e.isIntersecting) return
+                    const index = [...$("stops").children].indexOf(e.target)
+                    markStop(stops, index)
+                }),
+            { rootMargin: "-55% 0px -40% 0px" },
         )
         document.querySelectorAll(".stop").forEach((el) => observer.observe(el))
         markStop(stops, 0)
@@ -246,7 +279,8 @@ async function main() {
     }
 
     // ponytail: switching between ride and reading layouts reloads; live re-layout isn't worth the code
-    matchMedia("(min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)").addEventListener("change", () => location.reload())
+    for (const query of ["(min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)", "(prefers-reduced-motion: reduce)"])
+        matchMedia(query).addEventListener("change", () => location.reload())
 }
 
 main().catch((error) => {

@@ -320,6 +320,79 @@ button:focus-visible {
     }
 }
 
+/* Phones: the live scene fills the screen behind everything, with the town, train and river
+   along the bottom and the sky above. Station cards float in the sky and swipe sideways; each
+   snaps into place and scrolls up and down on its own when it's long. */
+.ride-mini {
+    --scene-h: 32vh; /* bottom of the screen kept clear for the town, train and river */
+}
+
+.ride-mini body {
+    overflow: hidden;
+}
+
+.ride-mini #scene {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+
+.ride-mini .ride-stage {
+    position: relative;
+    height: 100dvh;
+    padding: var(--bar-h) 0 var(--scene-h);
+}
+
+.ride-mini .ride-hero,
+.ride-mini .footer {
+    display: none;
+}
+
+.ride-mini .stops {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 14px 16px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+}
+
+.ride-mini .stops::-webkit-scrollbar {
+    display: none;
+}
+
+.ride-mini .stop {
+    flex: 0 0 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+}
+
+.ride-mini .ride-hint {
+    display: block;
+    position: absolute;
+    right: 12px;
+    bottom: calc(var(--scene-h) - 44px);
+    padding: 2px 10px;
+    background: var(--sign);
+    color: var(--sign-ink);
+    font-family: var(--font-pixel);
+    font-size: 0.85rem;
+    border: 3px solid var(--sign-ink);
+    transition: opacity 0.4s;
+}
+
 /* Reading layout (narrow screens or reduced motion): the city, then stops in a column */
 .ride-hero {
     display: block;
@@ -607,7 +680,7 @@ html:not(.ride-on) .footer {
 
     .logo,
     #clock-time,
-    .route-now-label {
+    .route-now {
         display: none;
     }
 

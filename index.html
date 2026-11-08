@@ -27,8 +27,11 @@
             document.documentElement.dataset.time =
                 hour >= 4 && hour < 6 ? "dawn" : hour >= 6 && hour < 16 ? "day" : hour >= 16 && hour < 19 ? "dusk" : "night"
             // The ride needs room and motion; small screens and reduced motion read top to bottom.
+            // Phones get a live scene strip whose train follows the stop being read.
             if (matchMedia("(min-width: 900px) and (min-height: 560px) and (prefers-reduced-motion: no-preference)").matches)
                 document.documentElement.classList.add("ride-on")
+            else if (matchMedia("(prefers-reduced-motion: no-preference)").matches)
+                document.documentElement.classList.add("ride-mini")
         })()
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">

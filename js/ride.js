@@ -565,14 +565,19 @@ function drawVehicle(ctx, v, x, y, lit) {
 /**
  * Starts the ride on `canvas`, with one station per element in `stops` (each needs
  * `dataset.line`). Returns `goTo(index)`, `setLook(look)` and `setWeather("clear" | "rain" |
- * "storm")`; `onStop(index)` fires when the
- * nearest station changes.
+ * "storm")`; `onStop(index)` fires when the nearest station changes.
+ *
+ * Pinned (wide screens): scrolling the tall `ride` drives the train and the panels ride with
+ * their stations. `follow` (phones): the canvas is a strip above stops that read normally, and
+ * `goTo(index)` just sends the train to that station.
  */
-export function startRide({ ride, canvas, stops, look, onStop }) {
+export function startRide({ ride, canvas, stops, look, onStop, follow = false }) {
     const ctx = canvas.getContext("2d")
     const stations = stops.map((el) => ({ line: el.dataset.line || LIVERY }))
     const legs = stations.length - 1 + DWELL
-    ride.style.height = `${legs * SCROLL_PER_STOP * 100 + 100}vh`
+    if (!follow) ride.style.height = `${legs * SCROLL_PER_STOP * 100 + 100}vh`
+    let followTarget = 0
+    let extra = 0 // sky rows added above the scene on a portrait full-screen canvas
 
     let palette = PALETTES[look] ?? PALETTES.night
     let viewW = 0
@@ -594,13 +599,17 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
     let current = -1
 
     const resize = () => {
-        viewW = Math.ceil(innerWidth / (innerHeight / H))
+        // Landscape: the scene fills the height. Portrait (phones): fit ~300 scene pixels across,
+        // keep the scene at the bottom, and extend the sky upward to fill the screen.
+        const portrait = canvas.clientHeight > canvas.clientWidth
+        viewW = portrait ? 300 : Math.ceil(canvas.clientWidth / (canvas.clientHeight / H))
+        extra = portrait ? Math.max(0, Math.round(canvas.clientHeight / (canvas.clientWidth / viewW)) - H) : 0
         canvas.width = viewW
-        canvas.height = H
+        canvas.height = H + extra
         ctx.imageSmoothingEnabled = false
         scene = buildLayers(palette, viewW, stations, seasonNow(), dark)
         const r = rng(3)
-        stars = palette.stars ? Array.from({ length: Math.round(viewW / 5) }, () => ({ x: r() * viewW, y: r() * 120, phase: r() * 6 })) : []
+        stars = palette.stars ? Array.from({ length: Math.round(((viewW / 5) * (120 + extra)) / 120) }, () => ({ x: r() * viewW, y: r() * (120 + extra) - extra, phase: r() * 6 })) : []
         // Traffic spread along the whole street, both directions, and a few flocks of birds.
         walkers.length = 0
         puddles.length = 0
@@ -645,6 +654,7 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
 
     /** Scroll progress to camera: travel between stations, easing in and dwelling at each. */
     const targetCamera = () => {
+        if (follow) return followTarget
         const top = ride.offsetTop
         const total = ride.offsetHeight - innerHeight
         const u = clamp((scrollY - top) / total) * legs
@@ -716,11 +726,16 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
         const raining = weather !== "clear"
         const target = targetCamera()
         const speed = target - camera
-        lastMove = speed * 0.14
+        lastMove = speed * (follow ? 0.35 : 0.14) // tighter when following a swipe
         camera += lastMove
         if (Math.abs(speed) < 0.05) camera = target
         const t = now / 1000
 
+        // Everything below draws in scene coordinates, shifted down under the extended sky.
+        ctx.setTransform(1, 0, 0, 1, 0, 0)
+        ctx.fillStyle = palette.sky[0]
+        ctx.fillRect(0, 0, viewW, extra)
+        ctx.setTransform(1, 0, 0, 1, 0, extra)
         ctx.drawImage(scene.sky.canvas, 0, 0)
         for (const s of raining ? [] : stars) {
             ctx.globalAlpha = 0.35 + 0.65 * (0.5 + 0.5 * Math.sin(t * 1.5 + s.phase))
@@ -819,7 +834,7 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
         for (const leaf of raining ? [] : leaves) {
             const span = viewW + 20
             const x = (((leaf.x - t * leaf.wind * (snowing ? 0.35 : 1) - camera * 0.65 + Math.sin(t * 1.3 + leaf.phase) * 4) % span) + span) % span - 10
-            const y = (leaf.y + t * leaf.fall) % RIVER
+            const y = ((leaf.y + t * leaf.fall) % (RIVER + extra)) - extra
             const [px, py] = [Math.round(x), Math.round(y)]
             if (snowing) {
                 ctx.fillStyle = scene.drift
@@ -845,7 +860,7 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
         ctx.translate(0, 2 * RIVER)
         ctx.scale(1, -1)
         ctx.globalAlpha = 0.5
-        ctx.drawImage(canvas, 0, RIVER - depth, viewW, depth, 0, RIVER - depth, viewW, depth)
+        ctx.drawImage(canvas, 0, RIVER - depth + extra, viewW, depth, 0, RIVER - depth, viewW, depth)
         ctx.restore()
         ctx.globalAlpha = 0.45
         ctx.fillStyle = scene.river
@@ -861,11 +876,11 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
         if (raining) {
             ctx.globalAlpha = 0.28
             ctx.fillStyle = "#1a2030"
-            ctx.fillRect(0, 0, viewW, H)
+            ctx.fillRect(0, -extra, viewW, H + extra)
             ctx.globalAlpha = 0.5
             ctx.fillStyle = mix(palette.sky[1], "#ffffff", 0.55)
             for (const drop of rain) {
-                const y = (drop.y + t * drop.speed) % H
+                const y = ((drop.y + t * drop.speed) % (H + extra)) - extra
                 const x = (((drop.x - y * 0.25 - camera * 0.3) % viewW) + viewW) % viewW
                 ctx.fillRect(Math.round(x), Math.round(y), 1, 4)
             }
@@ -875,7 +890,7 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
             if (weather === "storm" && (beat < 0.07 || (beat > 0.18 && beat < 0.24))) {
                 ctx.globalAlpha = 0.35
                 ctx.fillStyle = "#ffffff"
-                ctx.fillRect(0, 0, viewW, H)
+                ctx.fillRect(0, -extra, viewW, H + extra)
                 ctx.globalAlpha = 1
             }
         }
@@ -898,10 +913,10 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
             ctx.restore()
         }
 
-        // Each stop's panel rides with its station and fades as it leaves.
-        const pxPerScene = innerHeight / H
+        // Each stop's panel rides with its station and fades as it leaves (pinned only).
+        const pxPerScene = canvas.clientHeight / H
         let nearest = 0
-        stops.forEach((el, i) => {
+        if (!follow) stops.forEach((el, i) => {
             const offset = (i * SPACING - camera) * pxPerScene
             const opacity = clamp(1 - Math.abs(offset) / (innerWidth * 0.5))
             el.style.transform = `translate3d(${offset.toFixed(1)}px, 0, 0)`
@@ -910,7 +925,7 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
             el.inert = opacity < 0.6
             if (Math.abs(i * SPACING - camera) < Math.abs(nearest * SPACING - camera)) nearest = i
         })
-        if (nearest !== current) {
+        if (!follow && nearest !== current) {
             current = nearest
             onStop?.(current)
         }
@@ -944,6 +959,10 @@ export function startRide({ ride, canvas, stops, look, onStop }) {
 
     return {
         goTo(index) {
+            if (follow) {
+                followTarget = index * SPACING // fractional while a swipe is in progress
+                return
+            }
             const top = ride.offsetTop
             const total = ride.offsetHeight - innerHeight
             scrollTo({ top: top + ((index + DWELL / 2) / legs) * total, behavior: "smooth" })
