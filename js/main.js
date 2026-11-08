@@ -40,6 +40,7 @@ const contactLinks = `
 /** Every stop on the line, in riding order: me, each job newest first, school, projects, contact. */
 function buildStops({ jobs, schools, projects }) {
     const stops = []
+    // Whole-career stats, worked out from the data so they stay true as jobs are added.
     const firstJob = jobs.at(-1)?.date.match(/\d{4}/)?.[0]
     const years = firstJob ? new Date().getFullYear() - Number(firstJob) : null
 
@@ -52,13 +53,12 @@ function buildStops({ jobs, schools, projects }) {
         body: `
             <div class="intro">
                 <img class="portrait" src="assets/PP.jpg" alt="Gerald Sihotang" width="112" height="120">
-                <p class="lead">I build the behind-the-scenes systems that keep apps fast and dependable, even at their
-                busiest. I like making slow things quick: at Mekari, jobs that used to take hours now finish in under a minute.</p>
+                <p class="lead">I build the behind-the-scenes systems that keep apps fast and dependable. Over the years that's meant rewards at Tokopedia, keeping Shopee's services healthy at Sea Labs, and backend services at Mekari, and I like making slow things quick wherever I go.</p>
             </div>
             <ul class="stats">
-                <li><b>150×</b> faster background jobs</li>
-                <li><b>99.9%</b> uptime at peak hours</li>
                 ${years ? `<li><b>${years} yrs</b> building software</li>` : ""}
+                <li><b>Jakarta</b> home base</li>
+                <li><b>Games</b> off the clock</li>
             </ul>
             <p class="now"><span class="tag">NOW</span> Software engineer at Mekari.</p>`,
     })

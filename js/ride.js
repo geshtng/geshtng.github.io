@@ -152,6 +152,8 @@ function buildLayers(p, viewW, stations, season, dark) {
     const trees = []
     const lamps = []
     const cats = []
+    const tvs = []
+    let houses = 0
     const konbini = []
     const stalls = []
     for (let x = r() * 20; x < near.canvas.width; ) {
@@ -165,6 +167,7 @@ function buildLayers(p, viewW, stations, season, dark) {
             if (r() < 0.75) {
                 near.rect(x + w / 2 - 3, top + 4, 6, 4, windowLit)
                 near.rect(x + w / 2, top + 4, 1, 4, mix(windowLit, p.near, 0.4))
+                if (houses++ % 4 === 1) tvs.push({ x: Math.round(x + w / 2 - 3), y: Math.round(top + 4), phase: houses * 1.7 })
             }
             if (r() < 0.12) cats.push({ x: Math.round(x + w / 2 - 2), y: Math.round(top - 4), phase: r() * 6 })
             x += w + 3 + r() * 8
@@ -225,6 +228,15 @@ function buildLayers(p, viewW, stations, season, dark) {
                 near.rect(x, wy + sag * 4 * u * (1 - u), 1, 1, p.roof)
             }
 
+    // TV windows light only the glass still visible after poles, lamps and wires were drawn in
+    // front of them, so whatever stands in front of a window stays in front of its glow.
+    const glass = rgb(windowLit)
+    for (const tv of tvs) {
+        const pixels = near.ctx.getImageData(tv.x, tv.y, 6, 4).data
+        tv.mask = []
+        for (let i = 0; i < 24; i++) if (glass.every((v, k) => pixels[i * 4 + k] === v)) tv.mask.push([i % 6, Math.floor(i / 6)])
+    }
+
     // Track: street, overhead line, rail bridge, river, and a station per stop.
     const track = layers.track
     const width = track.canvas.width
@@ -264,6 +276,7 @@ function buildLayers(p, viewW, stations, season, dark) {
         trees,
         lamps,
         cats,
+        tvs,
         konbini,
         stalls,
         cat: mix(p.near, "#000000", 0.6),
@@ -748,6 +761,16 @@ export function startRide({ ride, canvas, stops, look, onStop, follow = false })
             if (name === "far" && !raining) drawSky(t)
             if (name === "near") {
                 const offset = Math.round(camera * layerSpeed)
+                // After dark a few windows flicker with the cool light of a TV or a game.
+                if (dark)
+                    for (const tv of scene.tvs) {
+                        const x = tv.x - offset
+                        if (x < -8 || x > viewW + 8) continue
+                        const scene2 = Math.floor(t * 0.8 + tv.phase) % 3 // the picture changes now and then
+                        const level = 0.55 + 0.45 * Math.sin(t * 9 + tv.phase) * Math.sin(t * 2.3 + tv.phase * 1.7)
+                        ctx.fillStyle = mix(palette.near, ["#7fb8ff", "#a0ffd8", "#c9a8ff"][scene2], level)
+                        for (const [dx, dy] of tv.mask) ctx.fillRect(x + dx, tv.y + dy, 1, 1)
+                    }
                 drawTrees(ctx, scene, offset, viewW, t)
                 drawCats(ctx, scene, offset, viewW, t)
                 const span = scene.layers.near.canvas.width
@@ -803,11 +826,13 @@ export function startRide({ ride, canvas, stops, look, onStop, follow = false })
                 }
                 const street = scene.layers.near.canvas.width
                 const lit = dark
-                for (const v of traffic) {
-                    const wx = (((v.x + v.dir * v.speed * t) % street) + street) % street
-                    const x = wx - offset
-                    if (x > -40 && x < viewW + 10) drawVehicle(ctx, v, x, v.dir > 0 ? TOWN + 8 : TOWN + 4, lit)
-                }
+                for (const lane of [-1, 1])
+                    for (const v of traffic) {
+                        if (v.dir !== lane) continue
+                        const wx = (((v.x + v.dir * v.speed * t) % street) + street) % street
+                        const x = wx - offset
+                        if (x > -40 && x < viewW + 10) drawVehicle(ctx, v, x, v.dir > 0 ? TOWN + 8 : TOWN + 4, lit)
+                    }
                 if (dark) {
                     drawLampGlow(offset, t, "halo")
                     // Ramen lanterns glow at night.
